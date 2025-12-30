@@ -1,0 +1,21 @@
+{
+  "name": "payload_ecommerce",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "rm -rf node_modules **/node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.26.2",
+  "devDependencies": {
+    "turbo": "^2.7.2"
+  }
+}
