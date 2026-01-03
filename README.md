@@ -17,6 +17,7 @@ This monorepo houses a complete e-commerce platform, featuring a powerful CMS ba
     -   [Next.js](https://nextjs.org/): Framework for the Payload admin UI.
     -   [MongoDB / PostgreSQL](https://www.mongodb.com/ / https://www.postgresql.org/): Database (configured via Payload).
     -   [payload-zitadel-plugin](https://github.com/payloadcms/payload-zitadel-plugin): Zitadel integration for authentication.
+    -   [Docker](https://www.docker.com/): Containerization for services like PostgreSQL and ZITADEL.
 -   **Frontend (Web)**:
     -   [Qwik](https://qwik.builder.io/): Resumable JavaScript framework for high-performance frontend.
     -   [Qwik City](https://qwik.builder.io/docs/qwik-city/overview/): Router and meta-framework for Qwik applications.
@@ -67,6 +68,7 @@ Each application requires its own `.env` file. Refer to the `.env.example` (or s
 # MONGODB_URL=mongodb://localhost:27017/payload-ecommerce
 # PAYLOAD_SECRET=YOUR_PAYLOAD_SECRET_KEY
 # NEXT_PUBLIC_SERVER_URL=http://localhost:3001
+# POSTGRES_URL=postgresql://postgres:postgres@localhost:5433/zitadel?schema=public # Example if using Dockerized Postgres
 ```
 
 **Example for `apps/web/.env`:**
@@ -74,7 +76,19 @@ Each application requires its own `.env` file. Refer to the `.env.example` (or s
 # QWIK_PUBLIC_API_URL=http://localhost:3001/api # Adjust if your CMS API is on a different port/path
 ```
 
-### 4. Run the Development Servers
+### 4. Docker Services (Optional)
+
+If you wish to run the PostgreSQL database and ZITADEL identity management services using Docker, navigate to the `apps/cms` directory and use Docker Compose:
+
+```bash
+cd apps/cms
+docker compose up -d
+```
+This will start `postgres` on port `5433` and `zitadel` on port `8080`.
+
+**Note:** If you use Docker for these services, ensure your `apps/cms/.env` is configured to connect to the Dockerized PostgreSQL (e.g., `POSTGRES_URL=postgresql://postgres:postgres@localhost:5433/zitadel?schema=public`).
+
+### 5. Run the Development Servers
 
 You can run both the CMS and Web applications concurrently.
 
@@ -98,7 +112,7 @@ pnpm dev
 # The Web app will typically run on http://localhost:5173 (or as configured by Vite)
 ```
 
-### 5. Seeding Data (Optional)
+### 6. Seeding Data (Optional)
 
 The CMS application includes a seeding script to populate your database with initial data (e.g., admin user, products).
 
