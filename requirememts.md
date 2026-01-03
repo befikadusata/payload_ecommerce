@@ -127,9 +127,9 @@ ecommerce-monorepo/
 
 ### **Phase 2: Backend Setup (Payload CMS)**
 
-* Configure **MongoDB connection** (via Docker Compose or Atlas).
+* Configure **Postgres connection** (via Docker Compose).
 * Enable **GraphQL API**.
-* Install and configure **ZITADEL plugin** for authentication.
+* Configure custom for authentication.
 * Set up **Users collection** compatible with ZITADEL.
 * Verify CMS boots correctly with `pnpm --filter cms dev`.
 

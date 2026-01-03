@@ -47,6 +47,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
     //     : undefined,
 
     server: {
+      port: 5173, // Force the frontend dev server to run on port 5173
       headers: {
         // Don't cache the server response in dev mode
         "Cache-Control": "public, max-age=0",
@@ -57,6 +58,9 @@ export default defineConfig(({ command, mode }): UserConfig => {
         // Do cache the server response in preview (non-adapter production build)
         "Cache-Control": "public, max-age=600",
       },
+    },
+    css: {
+      postcss: "./postcss.config.cjs",
     },
   };
 });
@@ -99,7 +103,7 @@ function errorOnDuplicatesPkgDeps(
     Please move the duplicated dependencies to "devDependencies" only and remove it from "dependencies"
   `;
 
-  // Throw an error with the constructed message.
+  // Throw an error with the provided message.
   if (duplicateDeps.length > 0) {
     throw new Error(msg);
   }
