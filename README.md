@@ -15,9 +15,8 @@ This monorepo houses a complete e-commerce platform, featuring a powerful CMS ba
 -   **Backend (CMS)**:
     -   [Payload CMS 3.0](https://payloadcms.com/): Headless CMS for data management.
     -   [Next.js](https://nextjs.org/): Framework for the Payload admin UI.
-    -   [MongoDB / PostgreSQL](https://www.mongodb.com/ / https://www.postgresql.org/): Database (configured via Payload).
+    -   [PostgreSQL](https://www.postgresql.org/): Database (configured via Payload).
     -   [payload-zitadel-plugin](https://github.com/payloadcms/payload-zitadel-plugin): Zitadel integration for authentication.
-    -   [Docker](https://www.docker.com/): Containerization for services like PostgreSQL and ZITADEL.
 -   **Frontend (Web)**:
     -   [Qwik](https://qwik.builder.io/): Resumable JavaScript framework for high-performance frontend.
     -   [Qwik City](https://qwik.builder.io/docs/qwik-city/overview/): Router and meta-framework for Qwik applications.
@@ -43,6 +42,7 @@ To get this project up and running on your local machine, follow these steps:
 
 -   Node.js (v18.20.2 or >=20.9.0 for CMS, ^18.17.0 || ^20.3.0 || >=21.0.0 for Web)
 -   pnpm (v9 or v10)
+-   An existing PostgreSQL instance.
 
 ### 1. Clone the repository
 
@@ -65,30 +65,39 @@ Each application requires its own `.env` file. Refer to the `.env.example` (or s
 
 **Example for `apps/cms/.env`:**
 ```env
-# MONGODB_URL=mongodb://localhost:27017/payload-ecommerce
-# PAYLOAD_SECRET=YOUR_PAYLOAD_SECRET_KEY
-# NEXT_PUBLIC_SERVER_URL=http://localhost:3001
-# POSTGRES_URL=postgresql://postgres:postgres@localhost:5433/zitadel?schema=public # Example if using Dockerized Postgres
+# Payload
+PAYLOAD_SECRET=your-payload-secret
+PAYLOAD_PUBLIC_SERVER_URL=http://localhost:3001
+PORT=3001
+
+# Database
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/payload_ecommerce
+
+# Zitadel
+ZITADEL_CLIENT_ID=
+ZITADEL_CLIENT_SECRET=
+ZITADEL_URL=
+ZITADEL_AUTHORIZATION_URL=
+ZITADEL_TOKEN_URL=
+ZITADEL_USERINFO_URL=
+ZITADEL_POST_LOGIN_REDIRECT_URL=http://localhost:5173/protected
+ZITADEL_REDIRECT_URI=http://localhost:3001/api/auth/zitadel/callback
+
+# Admin User
+ADMIN_EMAIL=
 ```
 
 **Example for `apps/web/.env`:**
 ```env
-# QWIK_PUBLIC_API_URL=http://localhost:3001/api # Adjust if your CMS API is on a different port/path
+# Payload CMS URL
+PUBLIC_PAYLOAD_URL=http://localhost:3001
+
+# Matrix
+MATRIX_HOMESERVER_URL=https://matrix.org
+MATRIX_ADMIN_TOKEN=your-matrix-admin-token
 ```
 
-### 4. Docker Services (Optional)
-
-If you wish to run the PostgreSQL database and ZITADEL identity management services using Docker, navigate to the `apps/cms` directory and use Docker Compose:
-
-```bash
-cd apps/cms
-docker compose up -d
-```
-This will start `postgres` on port `5433` and `zitadel` on port `8080`.
-
-**Note:** If you use Docker for these services, ensure your `apps/cms/.env` is configured to connect to the Dockerized PostgreSQL (e.g., `POSTGRES_URL=postgresql://postgres:postgres@localhost:5433/zitadel?schema=public`).
-
-### 5. Run the Development Servers
+### 4. Run the Development Servers
 
 You can run both the CMS and Web applications concurrently.
 
@@ -112,7 +121,7 @@ pnpm dev
 # The Web app will typically run on http://localhost:5173 (or as configured by Vite)
 ```
 
-### 6. Seeding Data (Optional)
+### 5. Seeding Data (Optional)
 
 The CMS application includes a seeding script to populate your database with initial data (e.g., admin user, products).
 

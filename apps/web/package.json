@@ -20,7 +20,10 @@
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "pnpm qwik preview",
     "start": "pnpm vite --open --mode ssr",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@acme/ui": "workspace:*",
@@ -36,6 +39,7 @@
     "eslint": "9.32.0",
     "eslint-plugin-qwik": "^1.18.0",
     "globals": "16.4.0",
+    "jsdom": "26.1.0",
     "postcss": "^8.5.6",
     "prettier": "3.6.2",
     "tailwindcss": "^4.1.18",
@@ -44,6 +48,7 @@
     "typescript-plugin-css-modules": "latest",
     "undici": "*",
     "vite": "7.2.6",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "3.2.3"
   }
 }
